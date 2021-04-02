@@ -3402,6 +3402,13 @@ let package = Package(
 
       ]
     ),
+    .testTarget(
+      name: "build-test",
+      dependencies: [
+        "openssl_grpc",
+      ],
+      path: "SwiftPMTests/build-test"
+    ),
   ],
 
   cxxLanguageStandard: CXXLanguageStandard.gnucxx14
