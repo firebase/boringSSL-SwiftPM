@@ -14,10 +14,10 @@ jobs:
     - name: Initialize xcodebuild
       run: xcodebuild -list
     - name: iOS Simulator Build Tests
-      run: xcodebuild -scheme abseil build -sdk 'iphonesimulator' -destination 'platform=iOS Simulator,name=iPhone 11'
+      run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'iphonesimulator' -destination 'platform=iOS Simulator,name=iPhone 11'
     - name: macos Build Tests
-      run: xcodebuild -scheme abseil build -sdk 'macosx' -destination 'platform=OS X,arch=x86_64',
+      run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'macosx' -destination 'platform=OS X,arch=x86_64',
     - name: tvOS Build Tests
-      run: xcodebuild -scheme abseil build -sdk "appletvsimulator" -destination 'platform=tvOS Simulator,name=Apple TV'
+      run: xcodebuild -scheme BoringSSL-GRPC build -sdk "appletvsimulator" -destination 'platform=tvOS Simulator,name=Apple TV'
     - name: iOS Device Build Tests
-      run: xcodebuild -scheme abseil build -sdk 'iphoneos'
+      run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'iphoneos'
