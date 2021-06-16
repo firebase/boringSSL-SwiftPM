@@ -10,3 +10,6 @@ and Swift Package Manager specific items.
 Versioning should follow normal sem-ver, as dependencies on this package are
 locked to the patch version. Non breaking edits to the Package manifest alone
 should be a patch version update.
+
+Releases should be normal tags, not marked as a "Release" via GitHub's
+interface.
