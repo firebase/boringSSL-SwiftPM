@@ -6,3 +6,7 @@ speed for Swift Package Manager usage.
 
 There should be no changes to this repo other than updates from its mirror
 and Swift Package Manager specific items.
+
+Versioning should follow normal sem-ver, as dependencies on this package are
+locked to the patch version. Non breaking edits to the Package manifest alone
+should be a patch version update.
