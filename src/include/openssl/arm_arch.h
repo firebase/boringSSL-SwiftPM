@@ -92,7 +92,7 @@
 #   define __ARM_ARCH__ 5
 #  elif	defined(__ARM_ARCH_4__)	|| defined(__ARM_ARCH_4T__)
 #   define __ARM_ARCH__ 4
-#  else
+#  elif !TARGET_OS_SIMULATOR // Apple future toolchain builds all public headers
 #   error "unsupported ARM architecture"
 #  endif
 # endif
