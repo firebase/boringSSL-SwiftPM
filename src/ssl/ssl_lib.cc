@@ -2170,7 +2170,7 @@ found:
 void SSL_get0_next_proto_negotiated(const SSL *ssl, const uint8_t **out_data,
                                     unsigned *out_len) {
   *out_data = ssl->s3->next_proto_negotiated.data();
-  *out_len = ssl->s3->next_proto_negotiated.size();
+  *out_len = (unsigned)(ssl->s3->next_proto_negotiated.size());
 }
 
 void SSL_CTX_set_next_protos_advertised_cb(
@@ -2226,10 +2226,10 @@ void SSL_get0_alpn_selected(const SSL *ssl, const uint8_t **out_data,
                             unsigned *out_len) {
   if (SSL_in_early_data(ssl) && !ssl->server) {
     *out_data = ssl->s3->hs->early_session->early_alpn.data();
-    *out_len = ssl->s3->hs->early_session->early_alpn.size();
+    *out_len = (unsigned)(ssl->s3->hs->early_session->early_alpn.size());
   } else {
     *out_data = ssl->s3->alpn_selected.data();
-    *out_len = ssl->s3->alpn_selected.size();
+    *out_len = (unsigned)(ssl->s3->alpn_selected.size());
   }
 }
 

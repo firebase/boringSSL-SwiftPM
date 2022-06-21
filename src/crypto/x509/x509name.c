@@ -100,7 +100,7 @@ int X509_NAME_entry_count(const X509_NAME *name)
 {
     if (name == NULL)
         return (0);
-    return (sk_X509_NAME_ENTRY_num(name->entries));
+    return (int)(sk_X509_NAME_ENTRY_num(name->entries));
 }
 
 int X509_NAME_get_index_by_NID(const X509_NAME *name, int nid, int lastpos)
@@ -126,7 +126,7 @@ int X509_NAME_get_index_by_OBJ(const X509_NAME *name, const ASN1_OBJECT *obj,
     if (lastpos < 0)
         lastpos = -1;
     sk = name->entries;
-    n = sk_X509_NAME_ENTRY_num(sk);
+    n = (int)sk_X509_NAME_ENTRY_num(sk);
     for (lastpos++; lastpos < n; lastpos++) {
         ne = sk_X509_NAME_ENTRY_value(sk, lastpos);
         if (OBJ_cmp(ne->object, obj) == 0)
@@ -155,7 +155,7 @@ X509_NAME_ENTRY *X509_NAME_delete_entry(X509_NAME *name, int loc)
         return (NULL);
     sk = name->entries;
     ret = sk_X509_NAME_ENTRY_delete(sk, loc);
-    n = sk_X509_NAME_ENTRY_num(sk);
+    n = (int)sk_X509_NAME_ENTRY_num(sk);
     name->modified = 1;
     if (loc == n)
         return (ret);
@@ -234,7 +234,7 @@ int X509_NAME_add_entry(X509_NAME *name, X509_NAME_ENTRY *ne, int loc,
     if (name == NULL)
         return (0);
     sk = name->entries;
-    n = sk_X509_NAME_ENTRY_num(sk);
+    n = (int)sk_X509_NAME_ENTRY_num(sk);
     if (loc > n)
         loc = n;
     else if (loc < 0)
@@ -269,7 +269,7 @@ int X509_NAME_add_entry(X509_NAME *name, X509_NAME_ENTRY *ne, int loc,
         goto err;
     }
     if (inc) {
-        n = sk_X509_NAME_ENTRY_num(sk);
+        n = (int)sk_X509_NAME_ENTRY_num(sk);
         for (i = loc + 1; i < n; i++)
             sk_X509_NAME_ENTRY_value(sk, i)->set += 1;
     }
@@ -363,7 +363,7 @@ int X509_NAME_ENTRY_set_data(X509_NAME_ENTRY *ne, int type,
                                       len, type,
                                       OBJ_obj2nid(ne->object)) ? 1 : 0;
     if (len < 0)
-        len = strlen((const char *)bytes);
+        len = (int)strlen((const char *)bytes);
     i = ASN1_STRING_set(ne->value, bytes, len);
     if (!i)
         return (0);

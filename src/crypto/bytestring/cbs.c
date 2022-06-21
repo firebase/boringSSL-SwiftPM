@@ -133,7 +133,7 @@ int CBS_get_u24(CBS *cbs, uint32_t *out) {
   if (!cbs_get_u(cbs, &v, 3)) {
     return 0;
   }
-  *out = v;
+  *out = (uint32_t)v;
   return 1;
 }
 
@@ -142,7 +142,7 @@ int CBS_get_u32(CBS *cbs, uint32_t *out) {
   if (!cbs_get_u(cbs, &v, 4)) {
     return 0;
   }
-  *out = v;
+  *out = (uint32_t)v;
   return 1;
 }
 

@@ -139,7 +139,7 @@ int X509_TRUST_get_count(void)
 {
     if (!trtable)
         return X509_TRUST_COUNT;
-    return sk_X509_TRUST_num(trtable) + X509_TRUST_COUNT;
+    return (int)sk_X509_TRUST_num(trtable) + X509_TRUST_COUNT;
 }
 
 X509_TRUST *X509_TRUST_get0(int idx)
@@ -165,7 +165,7 @@ int X509_TRUST_get_by_id(int id)
     if (!sk_X509_TRUST_find(trtable, &idx, &tmp)) {
         return -1;
     }
-    return idx + X509_TRUST_COUNT;
+    return (int)(idx + X509_TRUST_COUNT);
 }
 
 int X509_TRUST_set(int *t, int trust)

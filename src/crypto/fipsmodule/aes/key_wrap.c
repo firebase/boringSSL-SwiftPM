@@ -161,7 +161,7 @@ static const uint8_t kPaddingConstant[4] = {0xa6, 0x59, 0x59, 0xa6};
 int AES_wrap_key_padded(const AES_KEY *key, uint8_t *out, size_t *out_len,
                         size_t max_out, const uint8_t *in, size_t in_len) {
   // See https://tools.ietf.org/html/rfc5649#section-4.1
-  const uint32_t in_len32_be = CRYPTO_bswap4(in_len);
+  const uint32_t in_len32_be = CRYPTO_bswap4((uint32_t)in_len);
   const uint64_t in_len64 = in_len;
   const size_t padded_len = (in_len + 7) & ~7;
 

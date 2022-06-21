@@ -261,7 +261,7 @@ void *X509V3_get_d2i(const STACK_OF(X509_EXTENSION) *extensions, int nid,
             if (out_idx) {
                 /* TODO(https://crbug.com/boringssl/379): Consistently reject
                  * duplicate extensions. */
-                *out_idx = i;
+                *out_idx = (int)i;
                 found_ex = ex;
                 break;
             } else if (found_ex) {

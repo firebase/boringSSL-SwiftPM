@@ -580,7 +580,7 @@ static bool add_outgoing(SSL *ssl, bool is_ccs, Array<uint8_t> data) {
       &ssl->d1->outgoing_messages[ssl->d1->outgoing_messages_len];
   size_t len;
   data.Release(&msg->data, &len);
-  msg->len = len;
+  msg->len = (uint32_t)len;
   msg->epoch = ssl->d1->w_epoch;
   msg->is_ccs = is_ccs;
 
@@ -694,7 +694,7 @@ static enum seal_result_t seal_next_message(SSL *ssl, uint8_t *out,
       !CBB_add_u24(cbb.get(), hdr.msg_len) ||
       !CBB_add_u16(cbb.get(), hdr.seq) ||
       !CBB_add_u24(cbb.get(), ssl->d1->outgoing_offset) ||
-      !CBB_add_u24(cbb.get(), todo) ||
+      !CBB_add_u24(cbb.get(), (uint32_t)todo) ||
       !CBB_add_bytes(cbb.get(), CBS_data(&body), todo) ||
       !CBB_finish(cbb.get(), NULL, &frag_len)) {
     OPENSSL_PUT_ERROR(SSL, ERR_R_INTERNAL_ERROR);
@@ -792,7 +792,7 @@ static int send_flight(SSL *ssl) {
       return -1;
     }
 
-    int bio_ret = BIO_write(ssl->wbio.get(), packet.data(), packet_len);
+    int bio_ret = BIO_write(ssl->wbio.get(), packet.data(), (int)packet_len);
     if (bio_ret <= 0) {
       // Retry this packet the next time around.
       ssl->d1->outgoing_written = old_written;

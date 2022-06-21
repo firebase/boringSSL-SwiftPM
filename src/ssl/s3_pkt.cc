@@ -177,7 +177,7 @@ int tls_write_app_data(SSL *ssl, bool *out_needs_handshake, const uint8_t *in,
     }
 
     const size_t nw = std::min(max_send_fragment, size_t{n});
-    int ret = do_tls_write(ssl, SSL3_RT_APPLICATION_DATA, &in[tot], nw);
+    int ret = do_tls_write(ssl, SSL3_RT_APPLICATION_DATA, &in[tot], (unsigned int)nw);
     if (ret <= 0) {
       ssl->s3->wnum = tot;
       return ret;

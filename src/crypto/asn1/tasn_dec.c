@@ -437,7 +437,7 @@ static int asn1_item_ex_d2i(ASN1_VALUE **pval, const unsigned char **in,
             }
         }
         /* Save encoding */
-        if (!asn1_enc_save(pval, *in, p - *in, it))
+        if (!asn1_enc_save(pval, *in, (int)(p - *in), it))
             goto auxerr;
         if (asn1_cb && !asn1_cb(ASN1_OP_D2I_POST, pval, it, NULL))
             goto auxerr;
@@ -484,7 +484,7 @@ static int asn1_template_ex_d2i(ASN1_VALUE **val,
     const unsigned char *p, *q;
     if (!val)
         return 0;
-    flags = tt->flags;
+    flags = (int)(tt->flags);
     aclass = flags & ASN1_TFLG_TAG_CLASS;
 
     p = *in;
@@ -497,7 +497,7 @@ static int asn1_template_ex_d2i(ASN1_VALUE **val,
          * where it starts: so read in EXPLICIT header to get the info.
          */
         ret = asn1_check_tlen(&len, NULL, NULL, &cst,
-                              &p, inlen, tt->tag, aclass, opt, ctx);
+                              &p, inlen, (int)(tt->tag), aclass, opt, ctx);
         q = p;
         if (!ret) {
             OPENSSL_PUT_ERROR(ASN1, ASN1_R_NESTED_ASN1_ERROR);
@@ -542,7 +542,7 @@ static int asn1_template_noexp_d2i(ASN1_VALUE **val,
     const unsigned char *p;
     if (!val)
         return 0;
-    flags = tt->flags;
+    flags = (int)(tt->flags);
     aclass = flags & ASN1_TFLG_TAG_CLASS;
 
     p = *in;
@@ -552,7 +552,7 @@ static int asn1_template_noexp_d2i(ASN1_VALUE **val,
         int sktag, skaclass;
         /* First work out expected inner tag value */
         if (flags & ASN1_TFLG_IMPTAG) {
-            sktag = tt->tag;
+            sktag = (int)(tt->tag);
             skaclass = aclass;
         } else {
             skaclass = V_ASN1_UNIVERSAL;
@@ -614,7 +614,7 @@ static int asn1_template_noexp_d2i(ASN1_VALUE **val,
         }
     } else if (flags & ASN1_TFLG_IMPTAG) {
         /* IMPLICIT tagging */
-        ret = asn1_item_ex_d2i(val, &p, len, ASN1_ITEM_ptr(tt->item), tt->tag,
+        ret = asn1_item_ex_d2i(val, &p, len, ASN1_ITEM_ptr(tt->item), (int)(tt->tag),
                                aclass, opt, ctx, depth);
         if (!ret) {
             OPENSSL_PUT_ERROR(ASN1, ASN1_R_NESTED_ASN1_ERROR);
@@ -661,7 +661,7 @@ static int asn1_d2i_ex_primitive(ASN1_VALUE **pval,
         utype = tag;
         tag = -1;
     } else
-        utype = it->utype;
+        utype = (int)(it->utype);
 
     if (utype == V_ASN1_ANY) {
         /* If type is ANY need to figure out type from tag */
@@ -730,7 +730,7 @@ static int asn1_d2i_ex_primitive(ASN1_VALUE **pval,
     }
 
     /* We now have content length and type: translate into a structure */
-    if (!asn1_ex_c2i(pval, cont, len, utype, it))
+    if (!asn1_ex_c2i(pval, cont, (int)len, utype, it))
         goto err;
 
     *in = p;
@@ -912,7 +912,7 @@ static int asn1_check_tlen(long *olen, int *otag, unsigned char *oclass,
             ctx->plen = plen;
             ctx->pclass = pclass;
             ctx->ptag = ptag;
-            ctx->hdrlen = p - q;
+            ctx->hdrlen = (int)(p - q);
             ctx->valid = 1;
             /*
              * If no error, length + header can't exceed total amount of data

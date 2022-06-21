@@ -260,7 +260,7 @@ static int tls_write_buffer_flush(SSL *ssl) {
   SSLBuffer *buf = &ssl->s3->write_buffer;
 
   while (!buf->empty()) {
-    int ret = BIO_write(ssl->wbio.get(), buf->data(), buf->size());
+    int ret = BIO_write(ssl->wbio.get(), buf->data(), (int)(buf->size()));
     if (ret <= 0) {
       ssl->s3->rwstate = SSL_ERROR_WANT_WRITE;
       return ret;
@@ -277,7 +277,7 @@ static int dtls_write_buffer_flush(SSL *ssl) {
     return 1;
   }
 
-  int ret = BIO_write(ssl->wbio.get(), buf->data(), buf->size());
+  int ret = BIO_write(ssl->wbio.get(), buf->data(), (int)(buf->size()));
   if (ret <= 0) {
     ssl->s3->rwstate = SSL_ERROR_WANT_WRITE;
     // If the write failed, drop the write buffer anyway. Datagram transports

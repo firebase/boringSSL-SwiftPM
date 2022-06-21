@@ -505,7 +505,7 @@ static int ssl_encrypt_ticket_with_cipher_ctx(SSL_HANDSHAKE *hs, CBB *out,
   total = session_len;
 #else
   int len;
-  if (!EVP_EncryptUpdate(ctx.get(), ptr + total, &len, session_buf, session_len)) {
+  if (!EVP_EncryptUpdate(ctx.get(), ptr + total, &len, session_buf, (int)session_len)) {
     return 0;
   }
   total += len;
@@ -672,7 +672,7 @@ static enum ssl_hs_wait_t ssl_lookup_session(
   if (!session && ssl->session_ctx->get_session_cb != nullptr) {
     int copy = 1;
     session.reset(ssl->session_ctx->get_session_cb(ssl, session_id.data(),
-                                                   session_id.size(), &copy));
+                                                   (int)(session_id.size()), &copy));
     if (!session) {
       return ssl_hs_ok;
     }
@@ -990,7 +990,7 @@ int SSL_SESSION_set1_id(SSL_SESSION *session, const uint8_t *sid,
 
   // Use memmove in case someone passes in the output of |SSL_SESSION_get_id|.
   OPENSSL_memmove(session->session_id, sid, sid_len);
-  session->session_id_length = sid_len;
+  session->session_id_length = (unsigned int)sid_len;
   return 1;
 }
 

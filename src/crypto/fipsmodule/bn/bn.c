@@ -289,8 +289,8 @@ void bn_set_static_words(BIGNUM *bn, const BN_ULONG *words, size_t num) {
   }
   bn->d = (BN_ULONG *)words;
 
-  bn->width = num;
-  bn->dmax = num;
+  bn->width = (int)num;
+  bn->dmax = (int)num;
   bn->neg = 0;
   bn->flags |= BN_FLG_STATIC_DATA;
 }
@@ -400,7 +400,7 @@ int bn_resize_words(BIGNUM *bn, size_t words) {
     }
     OPENSSL_memset(bn->d + bn->width, 0,
                    (words - bn->width) * sizeof(BN_ULONG));
-    bn->width = words;
+    bn->width = (int)words;
     return 1;
   }
 
@@ -409,7 +409,7 @@ int bn_resize_words(BIGNUM *bn, size_t words) {
     OPENSSL_PUT_ERROR(BN, BN_R_BIGNUM_TOO_LONG);
     return 0;
   }
-  bn->width = words;
+  bn->width = (int)words;
   return 1;
 }
 

@@ -240,7 +240,7 @@ int bn_mod_inverse_consttime(BIGNUM *r, int *out_no_inverse, const BIGNUM *a,
 
   // Each loop iteration halves at least one of |u| and |v|. Thus we need at
   // most the combined bit width of inputs for at least one value to be zero.
-  unsigned a_bits = a_width * BN_BITS2, n_bits = n_width * BN_BITS2;
+  unsigned a_bits = (unsigned)(a_width * BN_BITS2), n_bits = (unsigned)(n_width * BN_BITS2);
   unsigned num_iters = a_bits + n_bits;
   if (num_iters < a_bits) {
     OPENSSL_PUT_ERROR(BN, BN_R_BIGNUM_TOO_LONG);

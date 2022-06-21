@@ -221,7 +221,7 @@ static int bio_read(BIO *bio, char *buf, int size_) {
     rest -= chunk;
   } while (rest);
 
-  return size;
+  return (int)size;
 }
 
 static int bio_write(BIO *bio, const char *buf, int num_) {
@@ -293,7 +293,7 @@ static int bio_write(BIO *bio, const char *buf, int num_) {
     buf += chunk;
   } while (rest);
 
-  return num;
+  return (int)num;
 }
 
 static int bio_make_pair(BIO *bio1, BIO *bio2, size_t writebuf1_len,
@@ -479,5 +479,5 @@ size_t BIO_ctrl_get_write_guarantee(BIO *bio) {
 }
 
 int BIO_shutdown_wr(BIO *bio) {
-  return BIO_ctrl(bio, BIO_C_SHUTDOWN_WR, 0, NULL);
+  return (int)BIO_ctrl(bio, BIO_C_SHUTDOWN_WR, 0, NULL);
 }

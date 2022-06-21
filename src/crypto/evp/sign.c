@@ -97,7 +97,7 @@ int EVP_SignFinal(const EVP_MD_CTX *ctx, uint8_t *sig,
       !EVP_PKEY_sign(pkctx, sig, &sig_len, m, m_len)) {
     goto out;
   }
-  *out_sig_len = sig_len;
+  *out_sig_len = (unsigned int)sig_len;
   ret = 1;
 
 out:

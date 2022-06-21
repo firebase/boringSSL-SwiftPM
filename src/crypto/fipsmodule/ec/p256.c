@@ -498,12 +498,12 @@ static void ec_GFp_nistp256_point_mul(const EC_GROUP *group, EC_RAW_POINT *r,
 
     // do other additions every 5 doublings
     if (i % 5 == 0) {
-      crypto_word_t bits = fiat_p256_get_bit(scalar->bytes, i + 4) << 5;
-      bits |= fiat_p256_get_bit(scalar->bytes, i + 3) << 4;
-      bits |= fiat_p256_get_bit(scalar->bytes, i + 2) << 3;
-      bits |= fiat_p256_get_bit(scalar->bytes, i + 1) << 2;
-      bits |= fiat_p256_get_bit(scalar->bytes, i) << 1;
-      bits |= fiat_p256_get_bit(scalar->bytes, i - 1);
+      crypto_word_t bits = fiat_p256_get_bit(scalar->bytes, (int)i + 4) << 5;
+      bits |= fiat_p256_get_bit(scalar->bytes, (int)i + 3) << 4;
+      bits |= fiat_p256_get_bit(scalar->bytes, (int)i + 2) << 3;
+      bits |= fiat_p256_get_bit(scalar->bytes, (int)i + 1) << 2;
+      bits |= fiat_p256_get_bit(scalar->bytes, (int)i) << 1;
+      bits |= fiat_p256_get_bit(scalar->bytes, (int)i - 1);
       crypto_word_t sign, digit;
       ec_GFp_nistp_recode_scalar_bits(&sign, &digit, bits);
 
@@ -543,10 +543,10 @@ static void ec_GFp_nistp256_point_mul_base(const EC_GROUP *group,
     }
 
     // First, look 32 bits upwards.
-    crypto_word_t bits = fiat_p256_get_bit(scalar->bytes, i + 224) << 3;
-    bits |= fiat_p256_get_bit(scalar->bytes, i + 160) << 2;
-    bits |= fiat_p256_get_bit(scalar->bytes, i + 96) << 1;
-    bits |= fiat_p256_get_bit(scalar->bytes, i + 32);
+    crypto_word_t bits = fiat_p256_get_bit(scalar->bytes, (int)i + 224) << 3;
+    bits |= fiat_p256_get_bit(scalar->bytes, (int)i + 160) << 2;
+    bits |= fiat_p256_get_bit(scalar->bytes, (int)i + 96) << 1;
+    bits |= fiat_p256_get_bit(scalar->bytes, (int)i + 32);
     // Select the point to add, in constant time.
     fiat_p256_select_point_affine((fiat_p256_limb_t)bits, 15,
                                   fiat_p256_g_pre_comp[1], tmp);
@@ -562,10 +562,10 @@ static void ec_GFp_nistp256_point_mul_base(const EC_GROUP *group,
     }
 
     // Second, look at the current position.
-    bits = fiat_p256_get_bit(scalar->bytes, i + 192) << 3;
-    bits |= fiat_p256_get_bit(scalar->bytes, i + 128) << 2;
-    bits |= fiat_p256_get_bit(scalar->bytes, i + 64) << 1;
-    bits |= fiat_p256_get_bit(scalar->bytes, i);
+    bits = fiat_p256_get_bit(scalar->bytes, (int)i + 192) << 3;
+    bits |= fiat_p256_get_bit(scalar->bytes, (int)i + 128) << 2;
+    bits |= fiat_p256_get_bit(scalar->bytes, (int)i + 64) << 1;
+    bits |= fiat_p256_get_bit(scalar->bytes, (int)i);
     // Select the point to add, in constant time.
     fiat_p256_select_point_affine((fiat_p256_limb_t)bits, 15,
                                   fiat_p256_g_pre_comp[0], tmp);

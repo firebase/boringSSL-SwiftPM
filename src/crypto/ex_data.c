@@ -156,7 +156,7 @@ int CRYPTO_get_ex_new_index(CRYPTO_EX_DATA_CLASS *ex_data_class, int *out_index,
     goto err;
   }
 
-  *out_index = sk_CRYPTO_EX_DATA_FUNCS_num(ex_data_class->meth) - 1 +
+  *out_index = (int)sk_CRYPTO_EX_DATA_FUNCS_num(ex_data_class->meth) - 1 +
                ex_data_class->num_reserved;
   ret = 1;
 
@@ -176,7 +176,7 @@ int CRYPTO_set_ex_data(CRYPTO_EX_DATA *ad, int index, void *val) {
     }
   }
 
-  n = sk_void_num(ad->sk);
+  n = (int)sk_void_num(ad->sk);
 
   // Add NULL values until the stack is long enough.
   for (i = n; i <= index; i++) {
@@ -246,8 +246,8 @@ void CRYPTO_free_ex_data(CRYPTO_EX_DATA_CLASS *ex_data_class, void *obj,
     CRYPTO_EX_DATA_FUNCS *func_pointer =
         sk_CRYPTO_EX_DATA_FUNCS_value(func_pointers, i);
     if (func_pointer->free_func) {
-      void *ptr = CRYPTO_get_ex_data(ad, i + ex_data_class->num_reserved);
-      func_pointer->free_func(obj, ptr, ad, i + ex_data_class->num_reserved,
+      void *ptr = CRYPTO_get_ex_data(ad, (int)(i + ex_data_class->num_reserved));
+      func_pointer->free_func(obj, ptr, ad, (int)(i + ex_data_class->num_reserved),
                               func_pointer->argl, func_pointer->argp);
     }
   }

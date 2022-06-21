@@ -430,7 +430,7 @@ int X509_chain_check_suiteb(int *perror_depth, X509 *x, STACK_OF(X509) *chain,
         if (rv == X509_V_ERR_SUITE_B_LOS_NOT_ALLOWED && flags != tflags)
             rv = X509_V_ERR_SUITE_B_CANNOT_SIGN_P_384_WITH_P_256;
         if (perror_depth)
-            *perror_depth = i;
+            *perror_depth = (int)i;
     }
     return rv;
 }

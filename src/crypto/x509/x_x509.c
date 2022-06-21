@@ -371,7 +371,7 @@ int X509_set1_signature_algo(X509 *x509, const X509_ALGOR *algo)
 
 int X509_set1_signature_value(X509 *x509, const uint8_t *sig, size_t sig_len)
 {
-    if (!ASN1_STRING_set(x509->signature, sig, sig_len)) {
+    if (!ASN1_STRING_set(x509->signature, sig, (int)sig_len)) {
       return 0;
     }
     x509->signature->flags &= ~(ASN1_STRING_FLAG_BITS_LEFT | 0x07);

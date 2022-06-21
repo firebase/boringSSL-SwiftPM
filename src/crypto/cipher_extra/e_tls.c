@@ -209,7 +209,7 @@ static int aead_tls_seal_scatter(const EVP_AEAD_CTX *ctx, uint8_t *out,
   size_t tag_len = early_mac_len;
 
   if (!EVP_EncryptUpdate(&tls_ctx->cipher_ctx, out_tag + tag_len, &len,
-                         mac + tag_len, mac_len - tag_len)) {
+                         mac + tag_len, (int)(mac_len - tag_len))) {
     return 0;
   }
   tag_len += len;

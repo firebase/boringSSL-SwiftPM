@@ -1252,7 +1252,7 @@ static bool ext_npn_parse_serverhello(SSL_HANDSHAKE *hs, uint8_t *out_alert,
   uint8_t *selected;
   uint8_t selected_len;
   if (ssl->ctx->next_proto_select_cb(
-          ssl, &selected, &selected_len, orig_contents, orig_len,
+          ssl, &selected, &selected_len, orig_contents, (unsigned int)orig_len,
           ssl->ctx->next_proto_select_cb_arg) != SSL_TLSEXT_ERR_OK ||
       !ssl->s3->next_proto_negotiated.CopyFrom(
           MakeConstSpan(selected, selected_len))) {
@@ -1569,7 +1569,7 @@ bool ssl_negotiate_alpn(SSL_HANDSHAKE *hs, uint8_t *out_alert,
   uint8_t selected_len;
   int ret = ssl->ctx->alpn_select_cb(
       ssl, &selected, &selected_len, CBS_data(&protocol_name_list),
-      CBS_len(&protocol_name_list), ssl->ctx->alpn_select_cb_arg);
+      (unsigned int)CBS_len(&protocol_name_list), ssl->ctx->alpn_select_cb_arg);
   // ALPN is required when QUIC is used.
   if (ssl->quic_method &&
       (ret == SSL_TLSEXT_ERR_NOACK || ret == SSL_TLSEXT_ERR_ALERT_WARNING)) {
@@ -1979,7 +1979,7 @@ static bool ext_pre_shared_key_add_clienthello(const SSL_HANDSHAKE *hs,
 
   struct OPENSSL_timeval now;
   ssl_get_current_time(ssl, &now);
-  uint32_t ticket_age = 1000 * (now.tv_sec - ssl->session->time);
+  uint32_t ticket_age = (uint32_t)(1000 * (now.tv_sec - ssl->session->time));
   uint32_t obfuscated_ticket_age = ticket_age + ssl->session->ticket_age_add;
 
   // Fill in a placeholder zero binder of the appropriate length. It will be

@@ -136,7 +136,7 @@ static int mem_read(BIO *bio, char *out, int outl) {
   BIO_clear_retry_flags(bio);
   ret = outl;
   if (b->length < INT_MAX && ret > (int)b->length) {
-    ret = b->length;
+    ret = (int)(b->length);
   }
 
   if (ret > 0) {
@@ -169,7 +169,7 @@ static int mem_write(BIO *bio, const char *in, int inl) {
   }
 
   BIO_clear_retry_flags(bio);
-  blen = b->length;
+  blen = (int)(b->length);
   if (INT_MAX - blen < inl) {
     goto err;
   }
@@ -189,7 +189,7 @@ static int mem_gets(BIO *bio, char *buf, int size) {
   BUF_MEM *b = (BUF_MEM *)bio->ptr;
 
   BIO_clear_retry_flags(bio);
-  j = b->length;
+  j = (int)(b->length);
   if (size - 1 < j) {
     j = size - 1;
   }
@@ -312,13 +312,13 @@ long BIO_get_mem_data(BIO *bio, char **contents) {
 }
 
 int BIO_get_mem_ptr(BIO *bio, BUF_MEM **out) {
-  return BIO_ctrl(bio, BIO_C_GET_BUF_MEM_PTR, 0, (char *) out);
+  return (int)BIO_ctrl(bio, BIO_C_GET_BUF_MEM_PTR, 0, (char *) out);
 }
 
 int BIO_set_mem_buf(BIO *bio, BUF_MEM *b, int take_ownership) {
-  return BIO_ctrl(bio, BIO_C_SET_BUF_MEM, take_ownership, (char *) b);
+  return (int)BIO_ctrl(bio, BIO_C_SET_BUF_MEM, take_ownership, (char *) b);
 }
 
 int BIO_set_mem_eof_return(BIO *bio, int eof_value) {
-  return BIO_ctrl(bio, BIO_C_SET_BUF_MEM_EOF_RETURN, eof_value, NULL);
+  return (int)BIO_ctrl(bio, BIO_C_SET_BUF_MEM_EOF_RETURN, eof_value, NULL);
 }

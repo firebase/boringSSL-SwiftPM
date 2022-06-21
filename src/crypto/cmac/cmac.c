@@ -244,7 +244,7 @@ int CMAC_Update(CMAC_CTX *ctx, const uint8_t *in, size_t in_len) {
   }
 
   OPENSSL_memcpy(ctx->block, in, in_len);
-  ctx->block_used = in_len;
+  ctx->block_used = (unsigned int)in_len;
 
   return 1;
 }

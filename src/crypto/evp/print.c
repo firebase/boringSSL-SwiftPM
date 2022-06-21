@@ -93,7 +93,7 @@ static int bn_print(BIO *bp, const char *number, const BIGNUM *num,
                    (BN_is_negative(num)) ? " (Negative)" : "") <= 0) {
       return 0;
     }
-    int n = BN_bn2bin(num, &buf[1]);
+    int n = (int)BN_bn2bin(num, &buf[1]);
 
     if (buf[1] & 0x80) {
       n++;

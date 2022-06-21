@@ -507,7 +507,7 @@ int RSA_verify_PKCS1_PSS_mgf1(const RSA *rsa, const uint8_t *mHash,
   //	-2	salt length is autorecovered from signature
   //	-N	reserved
   if (sLen == -1) {
-    sLen = hLen;
+    sLen = (int)hLen;
   } else if (sLen == -2) {
     sLen = -2;
   } else if (sLen < -2) {
@@ -534,7 +534,7 @@ int RSA_verify_PKCS1_PSS_mgf1(const RSA *rsa, const uint8_t *mHash,
     OPENSSL_PUT_ERROR(RSA, RSA_R_LAST_OCTET_INVALID);
     goto err;
   }
-  maskedDBLen = emLen - hLen - 1;
+  maskedDBLen = emLen - (int)hLen - 1;
   H = EM + maskedDBLen;
   DB = OPENSSL_malloc(maskedDBLen);
   if (!DB) {

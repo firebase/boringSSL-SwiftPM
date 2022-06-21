@@ -106,7 +106,7 @@ void PEM_dek_info(char *buf, const char *type, int len, char *str)
     OPENSSL_strlcat(buf, "DEK-Info: ", PEM_BUFSIZE);
     OPENSSL_strlcat(buf, type, PEM_BUFSIZE);
     OPENSSL_strlcat(buf, ",", PEM_BUFSIZE);
-    j = strlen(buf);
+    j = (int)strlen(buf);
     if (j + (len * 2) + 1 > PEM_BUFSIZE)
         return;
     for (i = 0; i < len; i++) {
@@ -525,14 +525,14 @@ int PEM_write_bio(BIO *bp, const char *name, const char *header,
     int reason = ERR_R_BUF_LIB;
 
     EVP_EncodeInit(&ctx);
-    nlen = strlen(name);
+    nlen = (int)strlen(name);
 
     if ((BIO_write(bp, "-----BEGIN ", 11) != 11) ||
         (BIO_write(bp, name, nlen) != nlen) ||
         (BIO_write(bp, "-----\n", 6) != 6))
         goto err;
 
-    i = strlen(header);
+    i = (int)strlen(header);
     if (i > 0) {
         if ((BIO_write(bp, header, i) != i) || (BIO_write(bp, "\n", 1) != 1))
             goto err;
@@ -621,7 +621,7 @@ int PEM_read_bio(BIO *bp, char **name, char **header, unsigned char **data,
         buf[++i] = '\0';
 
         if (strncmp(buf, "-----BEGIN ", 11) == 0) {
-            i = strlen(&(buf[11]));
+            i = (int)strlen(&(buf[11]));
 
             if (strncmp(&(buf[11 + i - 6]), "-----\n", 6) != 0)
                 continue;
@@ -715,7 +715,7 @@ int PEM_read_bio(BIO *bp, char **name, char **header, unsigned char **data,
         dataB = tmpB;
         bl = hl;
     }
-    i = strlen(nameB->data);
+    i = (int)strlen(nameB->data);
     if ((strncmp(buf, "-----END ", 9) != 0) ||
         (strncmp(nameB->data, &(buf[9]), i) != 0) ||
         (strncmp(&(buf[9 + i]), "-----\n", 6) != 0)) {
@@ -765,5 +765,5 @@ int PEM_def_callback(char *buf, int size, int rwflag, void *userdata)
         return 0;
     }
     OPENSSL_strlcpy(buf, userdata, (size_t)size);
-    return len;
+    return (int)len;
 }

@@ -513,7 +513,7 @@ int PKCS8_marshal_encrypted_private_key(CBB *out, int pbe_nid,
   int n1, n2;
   if (!CBB_add_asn1(&epki, &ciphertext, CBS_ASN1_OCTETSTRING) ||
       !CBB_reserve(&ciphertext, &ptr, max_out) ||
-      !EVP_CipherUpdate(&ctx, ptr, &n1, plaintext, plaintext_len) ||
+      !EVP_CipherUpdate(&ctx, ptr, &n1, plaintext, (int)plaintext_len) ||
       !EVP_CipherFinal_ex(&ctx, ptr + n1, &n2) ||
       !CBB_did_write(&ciphertext, n1 + n2) ||
       !CBB_flush(out)) {

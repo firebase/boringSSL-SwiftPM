@@ -826,7 +826,7 @@ static enum ssl_hs_wait_t do_read_server_hello(SSL_HANDSHAKE *hs) {
       return ssl_hs_error;
     }
     // Note: session_id could be empty.
-    hs->new_session->session_id_length = CBS_len(&server_hello.session_id);
+    hs->new_session->session_id_length = (unsigned int)CBS_len(&server_hello.session_id);
     OPENSSL_memcpy(hs->new_session->session_id,
                    CBS_data(&server_hello.session_id),
                    CBS_len(&server_hello.session_id));

@@ -325,7 +325,7 @@ bool tls13_derive_resumption_secret(SSL_HANDSHAKE *hs) {
     OPENSSL_PUT_ERROR(SSL, ERR_R_INTERNAL_ERROR);
     return false;
   }
-  hs->new_session->secret_length = hs->transcript.DigestLen();
+  hs->new_session->secret_length = (int)(hs->transcript.DigestLen());
   return derive_secret(
       hs, MakeSpan(hs->new_session->secret, hs->new_session->secret_length),
       label_to_span(kTLS13LabelResumption));
