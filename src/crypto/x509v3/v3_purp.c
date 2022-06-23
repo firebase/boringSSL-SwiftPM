@@ -170,7 +170,7 @@ int X509_PURPOSE_get_count(void)
 {
     if (!xptable)
         return X509_PURPOSE_COUNT;
-    return sk_X509_PURPOSE_num(xptable) + X509_PURPOSE_COUNT;
+    return (int)(sk_X509_PURPOSE_num(xptable) + X509_PURPOSE_COUNT);
 }
 
 X509_PURPOSE *X509_PURPOSE_get0(int idx)
@@ -208,7 +208,7 @@ int X509_PURPOSE_get_by_id(int purpose)
     sk_X509_PURPOSE_sort(xptable);
     if (!sk_X509_PURPOSE_find(xptable, &idx, &tmp))
         return -1;
-    return idx + X509_PURPOSE_COUNT;
+    return (int)(idx + X509_PURPOSE_COUNT);
 }
 
 int X509_PURPOSE_add(int id, int trust, int flags,
@@ -864,7 +864,7 @@ uint32_t X509_get_extension_flags(X509 *x)
     /* Ignore the return value. On failure, |x->ex_flags| will include
      * |EXFLAG_INVALID|. */
     x509v3_cache_extensions(x);
-    return x->ex_flags;
+    return (uint32_t)(x->ex_flags);
 }
 
 uint32_t X509_get_key_usage(X509 *x)
@@ -873,7 +873,7 @@ uint32_t X509_get_key_usage(X509 *x)
         return 0;
     }
     if (x->ex_flags & EXFLAG_KUSAGE)
-        return x->ex_kusage;
+        return (uint32_t)(x->ex_kusage);
     return UINT32_MAX;
 }
 
@@ -883,7 +883,7 @@ uint32_t X509_get_extended_key_usage(X509 *x)
         return 0;
     }
     if (x->ex_flags & EXFLAG_XKUSAGE)
-        return x->ex_xkusage;
+        return (uint32_t)(x->ex_xkusage);
     return UINT32_MAX;
 }
 

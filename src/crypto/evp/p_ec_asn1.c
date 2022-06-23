@@ -9,7 +9,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -189,7 +189,7 @@ static int eckey_priv_encode(CBB *out, const EVP_PKEY *key) {
 }
 
 static int int_ec_size(const EVP_PKEY *pkey) {
-  return ECDSA_size(pkey->pkey.ec);
+  return (int)ECDSA_size(pkey->pkey.ec);
 }
 
 static int ec_bits(const EVP_PKEY *pkey) {

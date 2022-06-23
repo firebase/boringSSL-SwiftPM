@@ -402,7 +402,7 @@ static ASN1_OBJECT *create_object_with_text_oid(int (*get_nid)(void),
   }
 
   ASN1_OBJECT *ret = ASN1_OBJECT_create(get_nid ? get_nid() : NID_undef, buf,
-                                        len, short_name, long_name);
+                                        (int)len, short_name, long_name);
   OPENSSL_free(buf);
   return ret;
 }

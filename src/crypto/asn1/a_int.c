@@ -236,7 +236,7 @@ ASN1_INTEGER *c2i_ASN1_INTEGER(ASN1_INTEGER **a, const unsigned char **pp,
             p++;
             len--;
         }
-        i = len;
+        i = (int)len;
         p += i - 1;
         to += i - 1;
         while ((!*p) && i) {
@@ -323,7 +323,7 @@ int ASN1_INTEGER_set_uint64(ASN1_INTEGER *out, uint64_t v)
         }
     }
 
-    out->length = sizeof(uint64_t) - leading_zeros;
+    out->length = (int)(sizeof(uint64_t) - leading_zeros);
     OPENSSL_memmove(out->data, out->data + leading_zeros, out->length);
 
     return 1;
@@ -395,7 +395,7 @@ ASN1_INTEGER *BN_to_ASN1_INTEGER(const BIGNUM *bn, ASN1_INTEGER *ai)
         }
         ret->data = new_data;
     }
-    ret->length = BN_bn2bin(bn, ret->data);
+    ret->length = (int)(BN_bn2bin(bn, ret->data));
     /* Correct zero case */
     if (!ret->length) {
         ret->data[0] = 0;

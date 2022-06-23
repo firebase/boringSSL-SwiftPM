@@ -161,7 +161,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
     int any_skip;
     int map_skip;
     *ptree = NULL;
-    n = sk_X509_num(certs);
+    n = (int)sk_X509_num(certs);
 
 #if 0
     /* Disable policy mapping for now... */
@@ -214,7 +214,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
                 explicit_policy--;
             if ((cache->explicit_skip != -1)
                 && (cache->explicit_skip < explicit_policy))
-                explicit_policy = cache->explicit_skip;
+                explicit_policy = (int)(cache->explicit_skip);
         }
     }
 
@@ -279,7 +279,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
                 any_skip--;
             if ((cache->any_skip >= 0)
                 && (cache->any_skip < any_skip))
-                any_skip = cache->any_skip;
+                any_skip = (int)(cache->any_skip);
         }
 
         if (map_skip == 0)
@@ -289,7 +289,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
                 map_skip--;
             if ((cache->map_skip >= 0)
                 && (cache->map_skip < map_skip))
-                map_skip = cache->map_skip;
+                map_skip = (int)(cache->map_skip);
         }
 
     }
@@ -499,7 +499,7 @@ static int tree_prune(X509_POLICY_TREE *tree, X509_POLICY_LEVEL *curr)
     int i;
     nodes = curr->nodes;
     if (curr->flags & X509_V_FLAG_INHIBIT_MAP) {
-        for (i = sk_X509_POLICY_NODE_num(nodes) - 1; i >= 0; i--) {
+        for (i = (int)sk_X509_POLICY_NODE_num(nodes) - 1; i >= 0; i--) {
             node = sk_X509_POLICY_NODE_value(nodes, i);
             /* Delete any mapped data: see RFC 3280 XXXX */
             if (node->data->flags & POLICY_DATA_FLAG_MAP_MASK) {
@@ -513,7 +513,7 @@ static int tree_prune(X509_POLICY_TREE *tree, X509_POLICY_LEVEL *curr)
     for (;;) {
         --curr;
         nodes = curr->nodes;
-        for (i = sk_X509_POLICY_NODE_num(nodes) - 1; i >= 0; i--) {
+        for (i = (int)sk_X509_POLICY_NODE_num(nodes) - 1; i >= 0; i--) {
             node = sk_X509_POLICY_NODE_value(nodes, i);
             if (node->nchild == 0) {
                 node->parent->nchild--;

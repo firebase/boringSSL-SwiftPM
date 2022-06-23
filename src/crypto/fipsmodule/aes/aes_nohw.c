@@ -1193,7 +1193,7 @@ void aes_nohw_ctr32_encrypt_blocks(const uint8_t *in, uint8_t *out,
   for (;;) {
     // Update counters.
     for (size_t i = 0; i < AES_NOHW_BATCH_SIZE; i++) {
-      ivs.u32[4 * i + 3] = CRYPTO_bswap4(ctr + i);
+      ivs.u32[4 * i + 3] = CRYPTO_bswap4(ctr + (uint32_t)i);
     }
 
     size_t todo = blocks >= AES_NOHW_BATCH_SIZE ? AES_NOHW_BATCH_SIZE : blocks;

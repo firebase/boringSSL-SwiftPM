@@ -64,7 +64,7 @@
 int ASN1_PRINTABLE_type(const unsigned char *s, int len)
 {
     if (len < 0) {
-        len = strlen((const char *)s);
+        len = (int)strlen((const char *)s);
     }
 
     int printable = 1;

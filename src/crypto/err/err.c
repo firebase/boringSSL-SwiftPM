@@ -852,6 +852,6 @@ void ERR_restore_state(const ERR_SAVE_STATE *state) {
   for (size_t i = 0; i < state->num_errors; i++) {
     err_copy(&dst->errors[i], &state->errors[i]);
   }
-  dst->top = state->num_errors - 1;
+  dst->top = (unsigned int)(state->num_errors - 1);
   dst->bottom = ERR_NUM_ERRORS - 1;
 }

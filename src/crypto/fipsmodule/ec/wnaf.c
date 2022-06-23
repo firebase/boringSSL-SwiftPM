@@ -139,7 +139,7 @@ void ec_compute_wNAF(const EC_GROUP *group, int8_t *out,
     // afterwards.
     window_val >>= 1;
     window_val +=
-        bit * bn_is_bit_set_words(scalar->words, group->order.width, j + w + 1);
+        bit * bn_is_bit_set_words(scalar->words, group->order.width, (unsigned int)(j + w + 1));
     assert(window_val <= next_bit);
   }
 

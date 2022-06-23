@@ -9,7 +9,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -207,11 +207,11 @@ int x509_rsa_ctx_to_pss(EVP_MD_CTX *ctx, X509_ALGOR *algor) {
 
   EVP_PKEY *pk = EVP_PKEY_CTX_get0_pkey(ctx->pctx);
   if (saltlen == -1) {
-    saltlen = EVP_MD_size(sigmd);
+    saltlen = (int)EVP_MD_size(sigmd);
   } else if (saltlen == -2) {
     // TODO(davidben): Forbid this mode. The world has largely standardized on
     // salt length matching hash length.
-    saltlen = EVP_PKEY_size(pk) - EVP_MD_size(sigmd) - 2;
+    saltlen = EVP_PKEY_size(pk) - (int)EVP_MD_size(sigmd) - 2;
     if (((EVP_PKEY_bits(pk) - 1) & 0x7) == 0) {
       saltlen--;
     }
@@ -277,7 +277,7 @@ int x509_rsa_pss_to_ctx(EVP_MD_CTX *ctx, const X509_ALGOR *sigalg,
 
   int saltlen = 20;
   if (pss->saltLength != NULL) {
-    saltlen = ASN1_INTEGER_get(pss->saltLength);
+    saltlen = (int)ASN1_INTEGER_get(pss->saltLength);
 
     /* Could perform more salt length sanity checks but the main
      * RSA routines will trap other invalid values anyway. */

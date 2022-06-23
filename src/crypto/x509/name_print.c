@@ -190,7 +190,7 @@ static int do_name_ex(BIO *out, const X509_NAME *n, int indent,
                     objbuf = "";
                 }
             }
-            objlen = strlen(objbuf);
+            objlen = (int)strlen(objbuf);
             if (!maybe_write(out, objbuf, objlen))
                 return -1;
             if ((objlen < fld_len) && (flags & XN_FLAG_FN_ALIGN)) {

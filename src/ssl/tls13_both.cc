@@ -520,7 +520,7 @@ bool tls13_add_certificate(SSL_HANDSHAKE *hs) {
   if (!ssl->method->init_message(ssl, cbb.get(), body,
                                  SSL3_MT_COMPRESSED_CERTIFICATE) ||
       !CBB_add_u16(body, hs->cert_compression_alg_id) ||
-      !CBB_add_u24(body, msg.size()) ||
+      !CBB_add_u24(body, (uint32_t)(msg.size())) ||
       !CBB_add_u24_length_prefixed(body, &compressed)) {
     OPENSSL_PUT_ERROR(SSL, ERR_R_INTERNAL_ERROR);
     return false;

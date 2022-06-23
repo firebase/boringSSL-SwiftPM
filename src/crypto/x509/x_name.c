@@ -235,7 +235,7 @@ static int x509_name_ex_d2i(ASN1_VALUE **val,
         entries = sk_STACK_OF_X509_NAME_ENTRY_value(intname, i);
         for (j = 0; j < sk_X509_NAME_ENTRY_num(entries); j++) {
             entry = sk_X509_NAME_ENTRY_value(entries, j);
-            entry->set = i;
+            entry->set = (int)i;
             if (!sk_X509_NAME_ENTRY_push(nm->entries, entry))
                 goto err;
             (void)sk_X509_NAME_ENTRY_set(entries, j, NULL);
@@ -267,7 +267,7 @@ static int x509_name_ex_i2d(ASN1_VALUE **val, unsigned char **out,
          !x509_name_canon(a))) {
         return -1;
     }
-    int ret = a->bytes->length;
+    int ret = (int)(a->bytes->length);
     if (out != NULL) {
         OPENSSL_memcpy(*out, a->bytes->data, ret);
         *out += ret;
@@ -490,7 +490,7 @@ static int asn1_string_canon(ASN1_STRING *out, ASN1_STRING *in)
         }
     }
 
-    out->length = to - out->data;
+    out->length = (int)(to - out->data);
 
     return 1;
 

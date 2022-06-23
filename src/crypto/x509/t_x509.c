@@ -339,7 +339,7 @@ int X509_NAME_print(BIO *bp, const X509_NAME *name, int obase)
                                                   && (s[2] <= 'Z')
                                                   && (s[3] == '='))
               ))) || (*s == '\0')) {
-            i = s - c;
+            i = (int)(s - c);
             if (BIO_write(bp, c, i) != i)
                 goto err;
             c = s + 1;          /* skip following slash */

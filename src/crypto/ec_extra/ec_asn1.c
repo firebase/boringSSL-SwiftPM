@@ -7,7 +7,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -531,7 +531,7 @@ int i2o_ECPublicKey(const EC_KEY *key, uint8_t **outp) {
 
   if (outp == NULL || buf_len == 0) {
     // out == NULL => just return the length of the octet string
-    return buf_len;
+    return (int)buf_len;
   }
 
   if (*outp == NULL) {
@@ -555,5 +555,5 @@ int i2o_ECPublicKey(const EC_KEY *key, uint8_t **outp) {
   if (!new_buffer) {
     *outp += buf_len;
   }
-  return buf_len;
+  return (int)buf_len;
 }

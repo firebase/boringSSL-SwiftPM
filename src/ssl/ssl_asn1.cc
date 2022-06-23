@@ -601,9 +601,9 @@ UniquePtr<SSL_SESSION> SSL_SESSION_parse(CBS *cbs,
     return nullptr;
   }
   OPENSSL_memcpy(ret->session_id, CBS_data(&session_id), CBS_len(&session_id));
-  ret->session_id_length = CBS_len(&session_id);
+  ret->session_id_length = (unsigned int)CBS_len(&session_id);
   OPENSSL_memcpy(ret->secret, CBS_data(&secret), CBS_len(&secret));
-  ret->secret_length = CBS_len(&secret);
+  ret->secret_length = (int)CBS_len(&secret);
 
   CBS child;
   uint64_t timeout;
@@ -876,7 +876,7 @@ int i2d_SSL_SESSION(SSL_SESSION *in, uint8_t **pp) {
   }
   OPENSSL_free(out);
 
-  return len;
+  return (int)len;
 }
 
 SSL_SESSION *SSL_SESSION_from_bytes(const uint8_t *in, size_t in_len,

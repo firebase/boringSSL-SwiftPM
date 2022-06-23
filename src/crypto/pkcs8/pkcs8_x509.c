@@ -498,7 +498,7 @@ static int PKCS12_handle_safe_bag(CBS *safe_bag, struct pkcs12_context *ctx) {
       return 0;
     }
     int ok = friendly_name_len == 0 ||
-             X509_alias_set1(x509, friendly_name, friendly_name_len);
+             X509_alias_set1(x509, friendly_name, (int)friendly_name_len);
     OPENSSL_free(friendly_name);
     if (!ok ||
         0 == sk_X509_push(ctx->out_certs, x509)) {
@@ -735,7 +735,7 @@ int PKCS12_get_key_and_certs(EVP_PKEY **out_key, STACK_OF(X509) *out_certs,
 
     int mac_ok;
     if (!pkcs12_check_mac(&mac_ok, ctx.password, ctx.password_len, &salt,
-                          iterations, md, &authsafes, &expected_mac)) {
+                          (unsigned int)iterations, md, &authsafes, &expected_mac)) {
       goto err;
     }
     if (!mac_ok && ctx.password_len == 0) {
@@ -746,7 +746,7 @@ int PKCS12_get_key_and_certs(EVP_PKEY **out_key, STACK_OF(X509) *out_certs,
       // code, tries both options. We match this behavior.
       ctx.password = ctx.password != NULL ? NULL : "";
       if (!pkcs12_check_mac(&mac_ok, ctx.password, ctx.password_len, &salt,
-                            iterations, md, &authsafes, &expected_mac)) {
+                            (unsigned int)iterations, md, &authsafes, &expected_mac)) {
         goto err;
       }
     }
@@ -828,7 +828,7 @@ PKCS12* d2i_PKCS12_bio(BIO *bio, PKCS12 **out_p12) {
   }
 
   for (;;) {
-    int n = BIO_read(bio, &buf->data[used], buf->length - used);
+    int n = BIO_read(bio, &buf->data[used], (int)(buf->length - used));
     if (n < 0) {
       if (used == 0) {
         goto out;
@@ -1136,7 +1136,7 @@ static int add_encrypted_data(CBB *out, int pbe_nid, const char *password,
   uint8_t *ptr;
   int n1, n2;
   if (!CBB_reserve(&encrypted_content, &ptr, max_out) ||
-      !EVP_CipherUpdate(&ctx, ptr, &n1, in, in_len) ||
+      !EVP_CipherUpdate(&ctx, ptr, &n1, in, (int)in_len) ||
       !EVP_CipherFinal_ex(&ctx, ptr + n1, &n2) ||
       !CBB_did_write(&encrypted_content, n1 + n2) ||
       !CBB_flush(out)) {

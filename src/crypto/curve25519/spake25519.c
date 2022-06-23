@@ -330,7 +330,7 @@ static const scalar kOrder = {{0xed, 0xd3, 0xf5, 0x5c, 0x1a, 0x63, 0x12, 0x58,
 static void scalar_cmov(scalar *dest, const scalar *src, crypto_word_t mask) {
   for (size_t i = 0; i < 8; i++) {
     dest->words[i] =
-        constant_time_select_w(mask, src->words[i], dest->words[i]);
+        (uint32_t)constant_time_select_w(mask, src->words[i], dest->words[i]);
   }
 }
 

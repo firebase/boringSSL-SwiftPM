@@ -175,7 +175,7 @@ ASN1_ENUMERATED *BN_to_ASN1_ENUMERATED(const BIGNUM *bn, ASN1_ENUMERATED *ai)
         ret->data = new_data;
     }
 
-    ret->length = BN_bn2bin(bn, ret->data);
+    ret->length = (int)BN_bn2bin(bn, ret->data);
     return (ret);
  err:
     if (ret != ai)

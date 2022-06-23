@@ -529,7 +529,7 @@ GENERAL_NAME *a2i_GENERAL_NAME(GENERAL_NAME *out,
     if (is_string) {
         if (!(gen->d.ia5 = ASN1_IA5STRING_new()) ||
             !ASN1_STRING_set(gen->d.ia5, (unsigned char *)value,
-                             strlen(value))) {
+                             (int)strlen(value))) {
             OPENSSL_PUT_ERROR(X509V3, ERR_R_MALLOC_FAILURE);
             goto err;
         }
@@ -601,7 +601,7 @@ static int do_othername(GENERAL_NAME *gen, const char *value, X509V3_CTX *ctx)
     ASN1_TYPE_free(gen->d.otherName->value);
     if (!(gen->d.otherName->value = ASN1_generate_v3(p + 1, ctx)))
         return 0;
-    objlen = p - value;
+    objlen = (int)(p - value);
     objtmp = OPENSSL_malloc(objlen + 1);
     if (objtmp == NULL)
         return 0;

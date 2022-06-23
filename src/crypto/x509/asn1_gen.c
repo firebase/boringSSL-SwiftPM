@@ -220,7 +220,7 @@ static ASN1_TYPE *generate_v3(const char *str, X509V3_CTX *cnf, int depth,
          * Work out new length with IMPLICIT tag: ignore constructed because
          * it will mess up if indefinite length
          */
-        len = ASN1_object_size(0, hdr_len, asn1_tags.imp_tag);
+        len = ASN1_object_size(0, (int)hdr_len, asn1_tags.imp_tag);
     } else
         len = cpy_len;
 
@@ -249,7 +249,7 @@ static ASN1_TYPE *generate_v3(const char *str, X509V3_CTX *cnf, int depth,
 
     for (i = 0, etmp = asn1_tags.exp_list; i < asn1_tags.exp_count;
          i++, etmp++) {
-        ASN1_put_object(&p, etmp->exp_constructed, etmp->exp_len,
+        ASN1_put_object(&p, etmp->exp_constructed, (int)(etmp->exp_len),
                         etmp->exp_tag, etmp->exp_class);
         if (etmp->exp_pad)
             *p++ = 0;
@@ -262,7 +262,7 @@ static ASN1_TYPE *generate_v3(const char *str, X509V3_CTX *cnf, int depth,
             && (asn1_tags.imp_tag == V_ASN1_SEQUENCE
                 || asn1_tags.imp_tag == V_ASN1_SET))
             hdr_constructed = V_ASN1_CONSTRUCTED;
-        ASN1_put_object(&p, hdr_constructed, hdr_len,
+        ASN1_put_object(&p, hdr_constructed, (int)hdr_len,
                         asn1_tags.imp_tag, asn1_tags.imp_class);
     }
 
@@ -301,8 +301,8 @@ static int asn1_cb(const char *elem, int len, void *bitstr)
         /* Look for the ':' in name value pairs */
         if (*p == ':') {
             vstart = p + 1;
-            vlen = len - (vstart - elem);
-            len = p - elem;
+            vlen = (int)(len - (vstart - elem));
+            len = (int)(p - elem);
             break;
         }
     }
@@ -407,7 +407,7 @@ static int parse_tagging(const char *vstart, int vlen, int *ptag, int *pclass)
         OPENSSL_PUT_ERROR(ASN1, ASN1_R_INVALID_NUMBER);
         return 0;
     }
-    *ptag = tag_num;
+    *ptag = (int)tag_num;
     /* If we have non numeric characters, parse them */
     if (eptr)
         vlen -= eptr - vstart;
@@ -618,7 +618,7 @@ static int asn1_str2tag(const char *tagstr, int len)
     };
 
     if (len == -1)
-        len = strlen(tagstr);
+        len = (int)strlen(tagstr);
 
     tntmp = tnst;
     for (i = 0; i < sizeof(tnst) / sizeof(struct tag_name_st); i++, tntmp++) {
@@ -760,7 +760,7 @@ static ASN1_TYPE *asn1_str2type(const char *str, int format, int utype)
             }
 
             atmp->value.asn1_string->data = rdata;
-            atmp->value.asn1_string->length = rdlen;
+            atmp->value.asn1_string->length = (int)rdlen;
             atmp->value.asn1_string->type = utype;
 
         } else if (format == ASN1_GEN_FORMAT_ASCII)
@@ -818,7 +818,7 @@ static int bitstr_cb(const char *elem, int len, void *bitstr)
         OPENSSL_PUT_ERROR(ASN1, ASN1_R_INVALID_NUMBER);
         return 0;
     }
-    if (!ASN1_BIT_STRING_set_bit(bitstr, bitnum, 1)) {
+    if (!ASN1_BIT_STRING_set_bit(bitstr, (int)bitnum, 1)) {
         OPENSSL_PUT_ERROR(ASN1, ERR_R_MALLOC_FAILURE);
         return 0;
     }

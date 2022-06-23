@@ -188,7 +188,7 @@ static int pkey_rsa_sign(EVP_PKEY_CTX *ctx, uint8_t *sig, size_t *siglen,
     unsigned out_len;
     switch (rctx->pad_mode) {
       case RSA_PKCS1_PADDING:
-        if (!RSA_sign(EVP_MD_type(rctx->md), tbs, tbslen, sig, &out_len, rsa)) {
+        if (!RSA_sign(EVP_MD_type(rctx->md), tbs, (unsigned int)tbslen, sig, &out_len, rsa)) {
           return 0;
         }
         *siglen = out_len;

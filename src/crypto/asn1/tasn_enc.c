@@ -272,7 +272,7 @@ static int asn1_template_ex_i2d(ASN1_VALUE **pval, unsigned char **out,
 {
     int i, ret, flags, ttag, tclass;
     size_t j;
-    flags = tt->flags;
+    flags = (int)(tt->flags);
 
     /* Historically, |iclass| was repurposed to pass additional flags into the
      * encoding process. */
@@ -292,7 +292,7 @@ static int asn1_template_ex_i2d(ASN1_VALUE **pval, unsigned char **out,
             return -1;
         }
         /* Get tagging from template */
-        ttag = tt->tag;
+        ttag = (int)(tt->tag);
         tclass = flags & ASN1_TFLG_TAG_CLASS;
     } else if (tag != -1) {
         /* No template tagging, get from arguments */
@@ -500,7 +500,7 @@ static int asn1_i2d_ex_primitive(ASN1_VALUE **pval, unsigned char **out,
 {
     /* Get length of content octets and maybe find out the underlying type. */
     int omit;
-    int utype = it->utype;
+    int utype = (int)(it->utype);
     int len = asn1_ex_i2c(pval, NULL, &omit, &utype, it);
     if (len < 0) {
         return -1;

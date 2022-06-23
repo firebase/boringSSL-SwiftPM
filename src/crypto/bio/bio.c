@@ -192,11 +192,11 @@ int BIO_write_all(BIO *bio, const void *data, size_t len) {
 }
 
 int BIO_puts(BIO *bio, const char *in) {
-  return BIO_write(bio, in, strlen(in));
+  return BIO_write(bio, in, (int)strlen(in));
 }
 
 int BIO_flush(BIO *bio) {
-  return BIO_ctrl(bio, BIO_CTRL_FLUSH, 0, NULL);
+  return (int)BIO_ctrl(bio, BIO_CTRL_FLUSH, 0, NULL);
 }
 
 long BIO_ctrl(BIO *bio, int cmd, long larg, void *parg) {
@@ -229,11 +229,11 @@ long BIO_int_ctrl(BIO *b, int cmd, long larg, int iarg) {
 }
 
 int BIO_reset(BIO *bio) {
-  return BIO_ctrl(bio, BIO_CTRL_RESET, 0, NULL);
+  return (int)BIO_ctrl(bio, BIO_CTRL_RESET, 0, NULL);
 }
 
 int BIO_eof(BIO *bio) {
-  return BIO_ctrl(bio, BIO_CTRL_EOF, 0, NULL);
+  return (int)BIO_ctrl(bio, BIO_CTRL_EOF, 0, NULL);
 }
 
 void BIO_set_flags(BIO *bio, int flags) {
@@ -333,7 +333,7 @@ size_t BIO_wpending(const BIO *bio) {
 }
 
 int BIO_set_close(BIO *bio, int close_flag) {
-  return BIO_ctrl(bio, BIO_CTRL_SET_CLOSE, close_flag, NULL);
+  return (int)BIO_ctrl(bio, BIO_CTRL_SET_CLOSE, close_flag, NULL);
 }
 
 OPENSSL_EXPORT size_t BIO_number_read(const BIO *bio) {
@@ -418,7 +418,7 @@ int BIO_indent(BIO *bio, unsigned indent, unsigned max_indent) {
 }
 
 static int print_bio(const char *str, size_t len, void *bio) {
-  return BIO_write((BIO *)bio, str, len);
+  return BIO_write((BIO *)bio, str, (int)len);
 }
 
 void ERR_print_errors(BIO *bio) {
@@ -459,7 +459,7 @@ static int bio_read_all(BIO *bio, uint8_t **out, size_t *out_len,
     }
     const size_t todo = len - done;
     assert(todo < INT_MAX);
-    const int n = BIO_read(bio, *out + done, todo);
+    const int n = BIO_read(bio, *out + done, (int)todo);
     if (n == 0) {
       *out_len = done;
       return 1;

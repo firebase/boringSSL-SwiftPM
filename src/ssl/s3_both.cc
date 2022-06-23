@@ -333,7 +333,7 @@ int tls_flush_flight(SSL *ssl) {
     int ret = BIO_write(
         ssl->wbio.get(),
         ssl->s3->pending_flight->data + ssl->s3->pending_flight_offset,
-        ssl->s3->pending_flight->length - ssl->s3->pending_flight_offset);
+        (int)(ssl->s3->pending_flight->length - ssl->s3->pending_flight_offset));
     if (ret <= 0) {
       ssl->s3->rwstate = SSL_ERROR_WANT_WRITE;
       return ret;

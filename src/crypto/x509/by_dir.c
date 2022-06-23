@@ -313,7 +313,7 @@ static int get_cert_by_subject(X509_LOOKUP *xl, int type, X509_NAME *name,
             size_t idx;
             BY_DIR_HASH htmp, *hent;
             ent = sk_BY_DIR_ENTRY_value(ctx->dirs, i);
-            j = strlen(ent->dir) + 1 + 8 + 6 + 1 + 1;
+            j = (int)strlen(ent->dir) + 1 + 8 + 6 + 1 + 1;
             if (!BUF_MEM_grow(b, j)) {
                 OPENSSL_PUT_ERROR(X509, ERR_R_MALLOC_FAILURE);
                 goto finish;

@@ -376,7 +376,7 @@ static const SSL_CIPHER *choose_cipher(
         // This element of |prio| is in a group. Update the minimum index found
         // so far and continue looking.
         if (group_min == -1 || (size_t)group_min > cipher_index) {
-          group_min = cipher_index;
+          group_min = (int)cipher_index;
         }
       } else {
         if (group_min != -1 && (size_t)group_min < cipher_index) {

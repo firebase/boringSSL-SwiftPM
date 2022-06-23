@@ -112,7 +112,7 @@ int i2t_ASN1_OBJECT(char *buf, int buf_len, const ASN1_OBJECT *a)
 
 static int write_str(BIO *bp, const char *str)
 {
-    int len = strlen(str);
+    int len = (int)strlen(str);
     return BIO_write(bp, str, len) == len ? len : -1;
 }
 
