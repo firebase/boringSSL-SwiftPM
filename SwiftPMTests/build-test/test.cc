@@ -28,3 +28,6 @@
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
+
+// Test for duplicate `_main` symbol.
+int main(int argc, char** argv) {}
