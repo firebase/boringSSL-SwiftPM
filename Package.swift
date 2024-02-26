@@ -55,6 +55,9 @@ let package = Package(
         "src/third_party/fiat/",
         "src/include/",
       ],
+      resources: [
+        .copy("PrivacyInfo.xcprivacy"),
+      ],
       publicHeadersPath: "src/include",
       cSettings: [
         .define("OPENSSL_NO_ASM", to: "1"),
