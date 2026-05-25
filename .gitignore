@@ -35,6 +35,7 @@
 /util/bot/sde-win32.tar.xz
 /util/bot/tools
 /util/bot/windows_sdk
+.build/
 
 # Ignore target under any directory.
 target/

@@ -1,3 +1,0 @@
-module BoringSSL_GRPCPackageTests {
-    header "/Users/aslamansari/Desktop/g-workspace/boringSSL-SwiftPM/.build/arm64-apple-macosx/debug/BoringSSL_GRPCPackageTests.build/include/BoringSSL-GRPCPackageTests-Swift.h"
-}

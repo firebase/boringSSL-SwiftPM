@@ -1,4 +1,0 @@
-module openssl_grpc {
-    umbrella "/Users/aslamansari/Desktop/g-workspace/boringSSL-SwiftPM/include"
-    export *
-}
