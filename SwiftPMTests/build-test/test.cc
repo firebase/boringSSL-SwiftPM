@@ -30,4 +30,4 @@
 #include <openssl/x509v3.h>
 
 // Test for duplicate `_main` symbol.
-int main(int argc, char** argv) {}
+int test_main(int argc, char** argv) {}
