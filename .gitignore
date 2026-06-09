@@ -36,6 +36,8 @@
 /util/bot/tools
 /util/bot/windows_sdk
 .build/
+.swiftpm/
 
 # Ignore target under any directory.
 target/
+.DS_Store
