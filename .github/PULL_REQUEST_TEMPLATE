@@ -1,8 +1,7 @@
-This fork is only for Swift Package Manager support for Firestore.
+Please do not send pull requests to the BoringSSL repository.
 
-Pull requests here should only be to support Firestore.
+We do, however, take contributions gladly.
 
-Otherwise for the Boring SSL library itself,
-see https://boringssl.googlesource.com/boringssl/+/master/CONTRIBUTING.md
+See https://boringssl.googlesource.com/boringssl/+/main/CONTRIBUTING.md
 
 Thanks!
