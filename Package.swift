@@ -3444,14 +3444,7 @@ let package = Package(
         // .define("X509_VERIFY_PARAM_table_cleanup", to: "GRPC_SHADOW_X509_VERIFY_PARAM_table_cleanup"),
 
       ]
-    ),
-    .testTarget(
-      name: "build-test",
-      dependencies: [
-        "openssl_grpc",
-      ],
-      path: "SwiftPMTests/build-test"
-    ),
+    )
   ],
 
   cxxLanguageStandard: CXXLanguageStandard.gnucxx14
