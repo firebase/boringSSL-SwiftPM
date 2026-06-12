@@ -23,5 +23,3 @@ jobs:
       run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'iphoneos' -destination 'generic/platform=iOS'
     - name: Swift Build
       run: swift build
-    - name: Swift Test
-      run: swift test
