@@ -29,5 +29,5 @@
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
 
-// Test for duplicate `_main` symbol.
-int main(int argc, char** argv) {}
+// Renamed to avoid duplicate `_main` symbol conflict with auto-generated Swift test runner.
+void test_main() {}
