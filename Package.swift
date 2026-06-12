@@ -39,6 +39,7 @@ let package = Package(
         "win-x86/",
         "win-x86_64/",
         "src/ssl/CMakeLists.txt",
+        "src/ssl/ssl_c_test.c",
         "src/util/",
         "src/crypto/fipsmodule/bcm.c",
         "src/crypto/asn1/f_enum.c",
@@ -3444,14 +3445,7 @@ let package = Package(
         // .define("X509_VERIFY_PARAM_table_cleanup", to: "GRPC_SHADOW_X509_VERIFY_PARAM_table_cleanup"),
 
       ]
-    ),
-    .testTarget(
-      name: "build-test",
-      dependencies: [
-        "openssl_grpc",
-      ],
-      path: "SwiftPMTests/build-test"
-    ),
+    )
   ],
 
   cxxLanguageStandard: CXXLanguageStandard.gnucxx14
