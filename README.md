@@ -33,7 +33,7 @@ For example:
 
 **Deviations:**
 We may occasionally deviate from this pattern if we need to force updates or
-if packaging/language fixes require unsyncing the versions. However, the
+if packaging/language fixes require decoupling the versions. However, the
 standard mapping should be preferred when releasing new versions aligned with
 gRPC releases.
 
