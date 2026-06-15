@@ -12,9 +12,9 @@ and Swift Package Manager specific items.
 
 ## Versioning and Tagging
 
-Versioning should follow normal sem-ver, as dependencies on this package are
-locked to the patch version. Non-breaking edits to the Package manifest alone
-should be a patch version update.
+Versioning should follow normal Semantic Versioning (SemVer), as dependencies
+on this package are locked to the patch version. Non-breaking edits to the
+Package.swift manifest alone should be a patch version update.
 
 ### How to Decide on a Tag Version
 
