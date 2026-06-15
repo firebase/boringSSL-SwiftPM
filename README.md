@@ -10,13 +10,32 @@ The source here should mirror what is released in the BoringSSL-GRPC CocoaPods
 used. There should be no changes to this repo other than updates from its mirror
 and Swift Package Manager specific items.
 
+## Versioning and Tagging
+
 Versioning should follow normal sem-ver, as dependencies on this package are
-locked to the patch version. Non breaking edits to the Package manifest alone
+locked to the patch version. Non-breaking edits to the Package manifest alone
 should be a patch version update.
 
-The current 0.7.x versioning is a mapping to enable SPM-only updates to the
-0.0.7 version of the source that is aligned with the CocoaPods version
-currently used by Firestore.
+### How to Decide on a Tag Version
+
+We aim to align the SPM version of this repository with the version of the
+`BoringSSL-GRPC` CocoaPod.
+
+The mapping standard is:
+*   SPM `0.Y.Z` maps to `BoringSSL-GRPC` CocoaPod `0.0.Y`.
+*   `Z` (the patch version in SPM) is used for SPM-only updates (e.g., manifest
+    fixes) for that same BoringSSL source version.
+
+For example:
+*   If the aligned `BoringSSL-GRPC` CocoaPod version is `0.0.41`, the
+    corresponding SPM base version should be `0.41.0`.
+*   An SPM-only fix for this version would be tagged as `0.41.1`.
+
+**Deviations:**
+We may occasionally deviate from this pattern if we need to force updates or
+if packaging/language fixes require unsyncing the versions. However, the
+standard mapping should be preferred when releasing new versions aligned with
+gRPC releases.
 
 Releases should be normal tags, not marked as a "Release" via GitHub's
 interface.
