@@ -28,6 +28,11 @@ done
 
 # 2. Fetch and reset
 echo "--- Syncing to: $COMMIT_HASH ---"
+if ! git remote | grep -q "^upstream$"; then
+    echo "ERROR: 'upstream' remote is not configured."
+    echo "Please run: git remote add upstream https://github.com/google/boringssl"
+    exit 1
+fi
 git fetch upstream
 git reset --hard "$COMMIT_HASH"
 
