@@ -4,6 +4,7 @@ set -e
 # Usage: ./scripts/sync-upstream.sh [commit-hash]
 COMMIT_HASH=${1:-upstream/main}
 TEMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TEMP_DIR"' EXIT
 
 # 1. Define the files/folders you want to preserve
 # Ensure these paths are relative to the repository root
