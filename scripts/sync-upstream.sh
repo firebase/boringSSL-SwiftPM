@@ -14,6 +14,8 @@ PRESERVE=(
     "README.md"
     "swiftpmtests/"
     "scripts/"
+    "docs/"
+    ".github/"
 )
 
 echo "--- Preserving local files ---"
