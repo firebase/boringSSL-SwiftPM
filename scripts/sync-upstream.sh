@@ -33,8 +33,15 @@ git reset --hard "$COMMIT_HASH"
 # 3. Restore preserved files
 echo "--- Restoring local files ---"
 for file in "${PRESERVE[@]}"; do
-    if [ -e "$TEMP_DIR/$(basename "$file")" ]; then
-        cp -r "$TEMP_DIR/$(basename "$file")" ./
+    clean_file="${file%/}"
+    target_name=$(basename "$clean_file")
+    if [ -e "$TEMP_DIR/$target_name" ]; then
+        if [ -d "$TEMP_DIR/$target_name" ]; then
+            mkdir -p "$clean_file"
+            cp -r "$TEMP_DIR/$target_name/." "$clean_file/"
+        else
+            cp "$TEMP_DIR/$target_name" "$clean_file"
+        fi
     fi
 done
 rm -rf "$TEMP_DIR"
