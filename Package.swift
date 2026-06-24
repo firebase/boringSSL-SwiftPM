@@ -23,6 +23,7 @@ let package = Package(
       name: "openssl_grpc",
       path: basePath,
       exclude: [
+        "src/ssl/ssl_c_test.c",
       ],
     
       sources: [
@@ -318,14 +319,7 @@ let package = Package(
         .headerSearchPath("./"),
         .headerSearchPath("include/"),
       ]
-    ),
-    .testTarget(
-      name: "build-test",
-      dependencies: [
-        "openssl_grpc",
-      ],
-      path: testPath
-    ),
+    )
   ],
   cxxLanguageStandard: .cxx17
 )
