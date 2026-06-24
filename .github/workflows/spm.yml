@@ -13,14 +13,16 @@ jobs:
     - uses: actions/checkout@v2
     - name: Initialize xcodebuild
       run: xcodebuild -list
-    - name: Install iOS and tvOS simulators
-      run: sudo xcodebuild -downloadPlatform iOS && sudo xcodebuild -downloadPlatform tvOS
+    - name: Install Simulators
+      run: |
+        xcodebuild -downloadPlatform iOS
+        xcodebuild -downloadPlatform tvOS
     - name: iOS Simulator Build Tests
-      run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'iphonesimulator' -destination 'platform=iOS Simulator,name=iPhone 11'
+      run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'iphonesimulator' -destination 'generic/platform=iOS Simulator'
     - name: macos Build Tests
       run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'macosx' -destination 'platform=OS X,arch=x86_64'
     - name: tvOS Build Tests
-      run: xcodebuild -scheme BoringSSL-GRPC build -sdk "appletvsimulator" -destination 'platform=tvOS Simulator,name=Apple TV'
+      run: xcodebuild -scheme BoringSSL-GRPC build -sdk "appletvsimulator" -destination 'generic/platform=tvOS Simulator'
     - name: iOS Device Build Tests
       run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'iphoneos' -destination 'generic/platform=iOS'
     - name: Swift Build
