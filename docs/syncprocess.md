@@ -1,4 +1,3 @@
-
 ## Syncing with Upstream
 To sync this repository with the upstream google/boringssl repository while maintaining the lightweight SwiftPM structure:
 
