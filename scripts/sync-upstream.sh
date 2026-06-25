@@ -10,13 +10,12 @@ trap 'rm -rf "$TEMP_DIR"' EXIT
 # Ensure these paths are relative to the repository root
 PRESERVE=(
     "Package.swift"
-    "err_data.c"
     "PrivacyInfo.xcprivacy"
     "README.md"
-    "swiftpmtests/"
-    "scripts/"
-    "docs/"
-    ".github/"
+    "scripts"
+    "docs"
+    ".github"
+    "SwiftPMTests"
 )
 
 echo "--- Preserving local files ---"
@@ -51,7 +50,10 @@ for file in "${PRESERVE[@]}"; do
     fi
 done
 
-# 4. Cleanup function
+# 4. Generate err_data.c
+bash ./scripts/generate-err-data.sh
+
+# 5. Cleanup function
 cleanup() {
     echo "--- Performing comprehensive cleanup ---"
     
