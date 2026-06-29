@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Move to repository root
+cd "$(dirname "$0")/.."
+
 # Usage: ./scripts/sync-upstream.sh [commit-hash]
 COMMIT_HASH=${1:-upstream/main}
 TEMP_DIR=$(mktemp -d)
@@ -63,7 +66,7 @@ cleanup() {
     rm -rf .swiftpm/ .bcr/ .build/
 
     # Files and artifacts
-    find . -type f -not -path "./.git/*" \( -name "*_test.cc" -o -name "*_test.go" -o -name "*_tests.txt" -o -name "*_unittest.cc" \) -delete
+    find . -type f -not -path "./.git/*" \( -name "*_test.cc" -o -name "*_test.go" -o -name "*_tests.txt" -o -name "*_unittest.cc" -o -name "*test.c" -o -name "*test.h" \) -delete
     rm -f .bazelrc
     find . -not -path "./.git/*" -name ".DS_Store" -delete
 }
