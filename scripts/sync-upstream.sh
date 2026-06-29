@@ -1,0 +1,82 @@
+#!/bin/bash
+set -e
+
+# Move to repository root
+cd "$(dirname "$0")/.."
+
+# Usage: ./scripts/sync-upstream.sh [commit-hash]
+COMMIT_HASH=${1:-upstream/main}
+TEMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TEMP_DIR"' EXIT
+
+# 1. Define the files/folders you want to preserve
+# Ensure these paths are relative to the repository root
+PRESERVE=(
+    "Package.swift"
+    "PrivacyInfo.xcprivacy"
+    "README.md"
+    "scripts"
+    "docs"
+    ".github"
+    "SwiftPMTests"
+)
+
+echo "--- Preserving local files ---"
+for file in "${PRESERVE[@]}"; do
+    if [ -e "$file" ]; then
+        cp -r "$file" "$TEMP_DIR/"
+    fi
+done
+
+# 2. Fetch and reset
+echo "--- Syncing to: $COMMIT_HASH ---"
+if ! git remote | grep -q "^upstream$"; then
+    echo "ERROR: 'upstream' remote is not configured."
+    echo "Please run: git remote add upstream https://github.com/google/boringssl"
+    exit 1
+fi
+git fetch upstream
+git reset --hard "$COMMIT_HASH"
+
+# 3. Restore preserved files
+echo "--- Restoring local files ---"
+for file in "${PRESERVE[@]}"; do
+    clean_file="${file%/}"
+    target_name=$(basename "$clean_file")
+    if [ -e "$TEMP_DIR/$target_name" ]; then
+        if [ -d "$TEMP_DIR/$target_name" ]; then
+            mkdir -p "$clean_file"
+            cp -r "$TEMP_DIR/$target_name/." "$clean_file/"
+        else
+            cp "$TEMP_DIR/$target_name" "$clean_file"
+        fi
+    fi
+done
+
+# 4. Generate err_data.c
+bash ./scripts/generate-err-data.sh
+
+# 5. Cleanup function
+cleanup() {
+    echo "--- Performing comprehensive cleanup ---"
+    
+    # Directories
+    rm -rf rust/ infra/ fuzz/ third_party/googletest/
+    rm -rf third_party/wycheproof_testvectors/ pki/testdata/ gen/test_support/
+    rm -rf .swiftpm/ .bcr/ .build/
+
+    # Files and artifacts
+    find . -type f -not -path "./.git/*" \( -name "*_test.cc" -o -name "*_test.go" -o -name "*_tests.txt" -o -name "*_unittest.cc" -o -name "*test.c" -o -name "*test.h" \) -delete
+    rm -f .bazelrc
+    find . -not -path "./.git/*" -name ".DS_Store" -delete
+}
+
+cleanup
+
+echo "--- Verifying build ---"
+if swift build; then
+    echo "SUCCESS: Build verified."
+else
+    echo "ERROR: Build failed."
+    exit 1
+fi
