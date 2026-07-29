@@ -59,14 +59,17 @@ bash ./scripts/generate-err-data.sh
 # 5. Cleanup function
 cleanup() {
     echo "--- Performing comprehensive cleanup ---"
-    
+
     # Directories
     rm -rf rust/ infra/ fuzz/ third_party/googletest/
     rm -rf third_party/wycheproof_testvectors/ pki/testdata/ gen/test_support/
     rm -rf .swiftpm/ .bcr/ .build/
+    rm -rf util/
 
     # Files and artifacts
     find . -type f -not -path "./.git/*" \( -name "*_test.cc" -o -name "*_test.go" -o -name "*_tests.txt" -o -name "*_unittest.cc" -o -name "*test.c" -o -name "*test.h" \) -delete
+    find . -type f -not -path "./.git/*" -name "*.go" -delete
+    find . -type f -not -path "./.git/*" -name "*.py" -delete
     rm -f .bazelrc
     find . -not -path "./.git/*" -name ".DS_Store" -delete
 }
