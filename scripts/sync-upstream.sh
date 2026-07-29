@@ -68,8 +68,7 @@ cleanup() {
 
     # Files and artifacts
     find . -type f -not -path "./.git/*" \( -name "*_test.cc" -o -name "*_test.go" -o -name "*_tests.txt" -o -name "*_unittest.cc" -o -name "*test.c" -o -name "*test.h" \) -delete
-    find . -type f -not -path "./.git/*" -name "*.go" -delete
-    find . -type f -not -path "./.git/*" -name "*.py" -delete
+    find . -type f -not -path "./.git/*" \( -name "*.go" -o -name "*.py" \) -delete
     rm -f .bazelrc
     find . -not -path "./.git/*" -name ".DS_Store" -delete
 }
