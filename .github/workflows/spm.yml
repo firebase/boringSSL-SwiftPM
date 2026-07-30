@@ -8,15 +8,23 @@ on:
 
 jobs:
   swiftpm-build-tests:
+    permissions:
+      contents: read
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
     - name: Initialize xcodebuild
       run: xcodebuild -list
     - name: Install Simulators
-      run: |
-        xcodebuild -downloadPlatform iOS
-        xcodebuild -downloadPlatform tvOS
+      uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+      with:
+        timeout_minutes: 15
+        max_attempts: 5
+        retry_wait_seconds: 120
+        continue_on_error: true
+        command: |
+          xcodebuild -downloadPlatform iOS
+          xcodebuild -downloadPlatform tvOS
     - name: iOS Simulator Build Tests
       run: xcodebuild -scheme BoringSSL-GRPC build -sdk 'iphonesimulator' -destination 'generic/platform=iOS Simulator'
     - name: macos Build Tests
