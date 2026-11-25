@@ -268,7 +268,11 @@ let package = Package(
         "crypto/x509/x_val.cc",
         "crypto/x509/x_x509.cc",
         "crypto/x509/x_x509a.cc",
-        "err_data.c",
+        // Not err_data.c: crypto/err/err.cc (C++) declares these tables
+        // without extern "C", which on Windows gives their C++ names a
+        // different mangling from their C ones. gen/crypto/err_data.cc is
+        // the same tables in C++.
+        "gen/crypto/err_data.cc",
         "ssl/bio_ssl.cc",
         "ssl/d1_both.cc",
         "ssl/d1_lib.cc",
@@ -315,6 +319,16 @@ let package = Package(
 
       cSettings: [
         .define("OPENSSL_NO_ASM", to: "1"),
+        // As swift-nio-ssl's copy of BoringSSL: windows.h includes
+        // winsock.h, which clashes with winsock2.h, unless _WINSOCKAPI_ is
+        // defined.
+        .define("_WINSOCKAPI_", .when(platforms: [.windows])),
+        .define("NOMINMAX", .when(platforms: [.windows])),
+        .define("NOCRYPT", .when(platforms: [.windows])),
+        // Windows only: the thread-exit callback isn't prefixed, so it would
+        // clash with the one in other copies of BoringSSL (swift-crypto's)
+        // in the same binary. thread_win.cc allows it to be a macro.
+        .define("p_thread_callback_boringssl", to: "p_thread_callback_boringssl_grpc", .when(platforms: [.windows])),
         .headerSearchPath("./"),
         .headerSearchPath("include/"),
       ]
